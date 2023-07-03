@@ -1,4 +1,4 @@
-package com.intheeast.springframe.dao;
+package com.taco.springframe.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.intheeast.springframe.domain.User;
+import com.taco.springframe.domain.User;
 
 
 public class UserDao {
