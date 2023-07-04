@@ -15,6 +15,13 @@ public class UserDao {
 		this.connectionMaker = simpleConnectionMaker;
 	}
 	
+	//== setter을 통한 DI ==//
+//	public UserDao() {};
+//	
+//	public void setConnectionMaker(ConnectionMaker connectionMaker) {
+//		this.connectionMaker = connectionMaker;
+//	}
+	
 	public void add(User user) throws ClassNotFoundException, SQLException {
 		Connection c = this.connectionMaker.makeConnection();
 

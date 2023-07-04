@@ -46,6 +46,7 @@ public class UserDao {
 		return user;
 	}
 	
+	//리팩토링 같은 관심사를 하나로 묶어 메소드로 만들었다.
 	private Connection getConnection() throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/sbdt_db?characterEncoding=UTF-8", 
