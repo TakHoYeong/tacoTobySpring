@@ -19,7 +19,7 @@ public class UserDaoTest {
 	
 	private User user1;
 	private User user2;
-	private User user3;	
+	private User user3;
 		
 	@BeforeEach
 	public void setUp() {	
