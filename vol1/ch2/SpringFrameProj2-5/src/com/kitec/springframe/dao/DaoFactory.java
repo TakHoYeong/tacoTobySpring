@@ -14,10 +14,15 @@ public class DaoFactory {
 		
 		SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
 		
-		dataSource.setDriverClass(com.mysql.cj.jdbc.Driver.class);
-		dataSource.setUrl("jdbc:mysql://localhost:3306/sbdt_db?characterEncoding=UTF-8");
-		dataSource.setUsername("root");
-		dataSource.setPassword("1234");
+//		dataSource.setDriverClass(com.mysql.cj.jdbc.Driver.class);
+//		dataSource.setUrl("jdbc:mysql://localhost:3306/sbdt_db?characterEncoding=UTF-8");
+//		dataSource.setUsername("root");
+//		dataSource.setPassword("1234");
+		
+	      dataSource.setDriverClass(org.mariadb.jdbc.Driver.class);
+	      dataSource.setUrl("jdbc:mariadb://192.168.0.56:3306/toby_kitec?characterEncoding=UTF-8");
+	      dataSource.setUsername("test1");
+	      dataSource.setPassword("1234");
 
 		return dataSource;
 	}
