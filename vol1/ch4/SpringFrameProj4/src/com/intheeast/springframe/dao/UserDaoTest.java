@@ -22,6 +22,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.intheeast.springframe.domain.User;
+import com.mysql.cj.exceptions.MysqlErrorNumbers;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {TestDaoFactory.class})
@@ -29,6 +30,9 @@ public class UserDaoTest {
 	 
 	@Autowired UserDao dao; 
 	@Autowired DataSource dataSource;
+	
+	@Autowired
+	UserDaoSql daoSql;
 	
 	private User user1;
 	private User user2;
@@ -38,9 +42,9 @@ public class UserDaoTest {
 	@BeforeEach
 	public void setUp() {	
 		
-		this.user1 = new User("gyumee", "�ڼ�ö", "springno1");
-		this.user2 = new User("leegw700", "�̱��", "springno2");
-		this.user3 = new User("bumjin", "�ڹ���", "springno3");
+		this.user1 = new User("gyumee", "sungkim", "springno1");
+		this.user2 = new User("leegw700", "brucelee", "springno2");
+		this.user3 = new User("bumjin", "haechoi", "springno3");
 	}
 	
 	@Test
@@ -126,7 +130,7 @@ public class UserDaoTest {
 	}
 	
 	@Test
-	public void duplciateKey() throws SQLException {
+	public void duplicateKey() throws SQLException {
 		dao.deleteAll();
 		
 		dao.add(user1);
@@ -146,6 +150,21 @@ public class UserDaoTest {
 			SQLExceptionTranslator set = new SQLErrorCodeSQLExceptionTranslator(this.dataSource);			
 			DataAccessException transEx = set.translate(null, null, sqlEx);
 			assertEquals(DuplicateKeyException.class, transEx.getClass());
+		}
+	}
+	
+	@Test
+	public void sqlExceptionTranslate2() throws SQLException, DuplicateUserIdException{
+		daoSql.deleteAll();
+		
+		try {
+		daoSql.add(user1);
+		daoSql.add(user1);
+		}catch (SQLException e) {
+			if(e.getErrorCode() == MysqlErrorNumbers.ER_DUP_ENTRY)
+				throw new DuplicateUserIdException(e);
+			else
+				throw new RuntimeException(e);
 		}
 	}
 
