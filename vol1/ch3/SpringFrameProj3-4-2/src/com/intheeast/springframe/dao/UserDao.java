@@ -8,36 +8,57 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.intheeast.springframe.domain.User;
+import com.mysql.cj.exceptions.MysqlErrorNumbers;
 
 public class UserDao {
 	private DataSource dataSource;
 	
-	private JdbcContext jdbcContext; 
+//	private JdbcContext jdbcContext; 
+//	
+//	public void setDataSource(DataSource dataSource) {
+//		this.jdbcContext = new JdbcContext();
+//		this.jdbcContext.setDataSource(dataSource);
+//		
+//		this.dataSource = dataSource;
+//	}
 	
 	public void setDataSource(DataSource dataSource) {
-		this.jdbcContext = new JdbcContext();
-		this.jdbcContext.setDataSource(dataSource);
-		
-		this.dataSource = dataSource;
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
-	public void add(final User user) throws SQLException {
-		this.jdbcContext.workWithStatementStrategy(
-				new StatementStrategy() {			
-					public PreparedStatement makePreparedStatement(Connection c)
+	private JdbcTemplate jdbcTemplate;
+	
+	public void add(final User user) throws DuplicateUserIdException{
+		
+		try {
+//		this.jdbcContext.workWithStatementStrategy(
+//				new StatementStrategy() {			
+//					public PreparedStatement makePreparedStatement(Connection c)
+			this.jdbcTemplate.update("insert into users(id, name, password) values(?,?,?)",
+					user.getId(), 
+					user.getName(), 
+					user.getPassword());
 					throws SQLException {
 						PreparedStatement ps = 
 							c.prepareStatement("insert into users(id, name, password) values(?,?,?)");
-						ps.setString(1, user.getId());
-						ps.setString(2, user.getName());
-						ps.setString(3, user.getPassword());
-						
-						return ps;
+//						ps.setString(1, user.getId());
+//						ps.setString(2, user.getName());
+//						ps.setString(3, user.getPassword());
+//						
+//						return ps;
 					}
-				}
-		);
+//					
+//				}
+//		);
+		}catch(SQLException e) {
+			if(e.getErrorCode() == MysqlErrorNumbers.ER_DUP_ENTRY)
+				throw new DuplicateUserIdException(e);
+			else
+				throw new RuntimeException(e);
+			}
 	}
 	
 	public User get(String id) throws ClassNotFoundException, SQLException {

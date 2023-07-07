@@ -15,7 +15,7 @@ public class DaoFactory {
 		SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
 		
 		dataSource.setDriverClass(com.mysql.cj.jdbc.Driver.class);
-		dataSource.setUrl("jdbc:mysql://localhost:3306/sbdt_db?characterEncoding=UTF-8");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/sbdt_db1?characterEncoding=UTF-8");
 		dataSource.setUsername("root");
 		dataSource.setPassword("1234");
 		
@@ -27,6 +27,11 @@ public class DaoFactory {
 		UserDaoJdbc userDaoJdbc = new UserDaoJdbc();
 		userDaoJdbc.setDataSource(dataSource());
 		return userDaoJdbc;
+	}
+	
+	@Bean
+	public UserDaoSql userDaoSql() {
+		return null;
 	}
 
 }
