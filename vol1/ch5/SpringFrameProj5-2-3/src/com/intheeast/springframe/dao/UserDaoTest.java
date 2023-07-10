@@ -40,7 +40,6 @@ public class UserDaoTest {
 		
 	@BeforeEach
 	public void setUp() {	
-		
 		this.user1 = new User("gyumee", "박성철", "springno1", Level.BASIC, 1, 0);
 		this.user2 = new User("leegw700", "이길원", "springno2", Level.SILVER, 55, 10);
 		this.user3 = new User("bumjin", "박범진", "springno3", Level.GOLD, 100, 40);
@@ -153,6 +152,35 @@ public class UserDaoTest {
 			SQLExceptionTranslator set = new SQLErrorCodeSQLExceptionTranslator(this.dataSource);			
 			DataAccessException transEx = set.translate(null, null, sqlEx);
 			assertEquals(DuplicateKeyException.class, transEx.getClass());
+		}
+	}
+	
+	@Test
+	public void update() {
+		dao.deleteAll();
+		
+		dao.add(user1);
+		dao.add(user2);
+		
+		user1.setName("오민규");
+		user1.setPassword("springo6");
+		user1.setLevel(Level.GOLD);
+		user1.setLogin(1000);
+		user1.setRecommend(999);
+		dao.update(user1);
+		
+		Optional<User> Optuser1update = dao.get(user1.getId());
+		
+		if(!Optuser1update.isEmpty()) {
+			User user1update = Optuser1update.get();
+			checkSameUser(user1, user1update);
+		}	
+		
+		Optional<User> Optuser2update = dao.get(user2.getId());
+		
+		if(!Optuser2update.isEmpty()) {
+			User user2update = Optuser2update.get();
+			checkSameUser(user2, user2update);
 		}
 	}
 
