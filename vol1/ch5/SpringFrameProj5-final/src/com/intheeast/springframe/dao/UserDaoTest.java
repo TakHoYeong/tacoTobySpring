@@ -41,9 +41,9 @@ public class UserDaoTest {
 	@BeforeEach
 	public void setUp() {	
 		
-		this.user1 = new User("gyumee", "박성철", "springno1", Level.BASIC, 1, 0);
-		this.user2 = new User("leegw700", "이길원", "springno2", Level.SILVER, 55, 10);
-		this.user3 = new User("bumjin", "박범진", "springno3", Level.GOLD, 100, 40);
+		this.user1 = new User("gyumee", "�ڼ�ö", "springno1", "user1@ksug.org", Level.BASIC, 1, 0);
+		this.user2 = new User("leegw700", "�̱��", "springno2", "user2@ksug.org", Level.SILVER, 55, 10);
+		this.user3 = new User("bumjin", "�ڹ���", "springno3", "user3@ksug.org", Level.GOLD, 100, 40);
 	}
 	
 	@Test
@@ -71,6 +71,15 @@ public class UserDaoTest {
 	}
 	
 	@Test
+	public void getUserFailure() throws SQLException, ClassNotFoundException {		
+		dao.deleteAll();
+		assertEquals(dao.getCount(), 0);		
+		
+		Optional<User> Optuserget = dao.get("unknown_id");
+		assertTrue(Optuserget.isEmpty());		
+	}
+	
+	@Test
 	public void count() throws SQLException, ClassNotFoundException {		
 		dao.deleteAll();
 		assertEquals(dao.getCount(), 0);
@@ -85,14 +94,7 @@ public class UserDaoTest {
 		assertEquals(dao.getCount(), 3);		
 	}
 	
-	@Test
-	public void getUserFailure() throws SQLException, ClassNotFoundException {		
-		dao.deleteAll();
-		assertEquals(dao.getCount(), 0);		
-		
-		Optional<User> Optuserget = dao.get("unknown_id");
-		assertTrue(Optuserget.isEmpty());		
-	}
+	
 	
 	@Test
 	public void getAll() throws SQLException  {
@@ -126,7 +128,7 @@ public class UserDaoTest {
 		assertEquals(user1.getId(), user2.getId());
 		assertEquals(user1.getName(), user2.getName());
 		assertEquals(user1.getPassword(), user2.getPassword());
-		
+		assertEquals(user1.getEmail(), user2.getEmail());
 		assertEquals(user1.getLevel(), user2.getLevel());
 		assertEquals(user1.getLogin(), user2.getLogin());
 		assertEquals(user1.getRecommend(), user2.getRecommend());
@@ -153,6 +155,36 @@ public class UserDaoTest {
 			SQLExceptionTranslator set = new SQLErrorCodeSQLExceptionTranslator(this.dataSource);			
 			DataAccessException transEx = set.translate(null, null, sqlEx);
 			assertEquals(DuplicateKeyException.class, transEx.getClass());
+		}
+	}
+	
+	@Test
+	public void update() {
+		dao.deleteAll();
+		
+		dao.add(user1);
+		dao.add(user2);
+		
+		user1.setName("���α�");
+		user1.setPassword("springo6");
+		user1.setEmail("user6@ksug.org");
+		user1.setLevel(Level.GOLD);
+		user1.setLogin(1000);
+		user1.setRecommend(999);
+		dao.update(user1);
+		
+		Optional<User> Optuser1update = dao.get(user1.getId());
+		
+		if(!Optuser1update.isEmpty()) {
+			User user1update = Optuser1update.get();
+			checkSameUser(user1, user1update);
+		}	
+		
+		Optional<User> Optuser2update = dao.get(user2.getId());
+		
+		if(!Optuser2update.isEmpty()) {
+			User user2update = Optuser2update.get();
+			checkSameUser(user2, user2update);
 		}
 	}
 
