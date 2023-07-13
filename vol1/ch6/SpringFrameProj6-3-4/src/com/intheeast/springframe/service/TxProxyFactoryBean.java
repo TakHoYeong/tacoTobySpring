@@ -27,8 +27,8 @@ public class TxProxyFactoryBean implements FactoryBean<Object> {
 		this.serviceInterface = serviceInterface;
 	}
 
-	// FactoryBean �������̽� ���� �޼ҵ�
-	// ���̳��� ���Ͻ� ������Ʈ�� �����Ѵ�.
+	// FactoryBean 인터페이스 구현 메서드
+	// 인스턴스를 반환하는 메서드입니다.
 	public Object getObject() throws Exception {
 		TransactionHandler txHandler = new TransactionHandler();
 		txHandler.setTarget(target);
