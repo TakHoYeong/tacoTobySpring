@@ -69,7 +69,7 @@ public class UserDaoTest {
 		assertEquals(dao.getCount(), 2);
 		
 		dao.add(user3);
-		assertEquals(dao.getCount(), 3);		
+		assertEquals(dao.getCount(), 3);
 	}
 	
 	@Test
@@ -78,7 +78,7 @@ public class UserDaoTest {
 		assertEquals(dao.getCount(), 0);		
 		
 		Assertions.assertThrows(EmptyResultDataAccessException.class, 
-				() -> {dao.get("unknown_id");});	
+				() -> {dao.get("unknown_id");});
 	}	
 
 }
