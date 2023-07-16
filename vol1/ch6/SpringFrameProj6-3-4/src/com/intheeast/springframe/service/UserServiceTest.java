@@ -243,8 +243,8 @@ public class UserServiceTest {
 		TxProxyFactoryBean txProxyFactoryBean = 
 				context.getBean("&userService", TxProxyFactoryBean.class);
 		txProxyFactoryBean.setTarget(testUserService);
-		UserService txUserService = (UserService) txProxyFactoryBean.getObject();
-			
+		UserService txUserService = (UserService)txProxyFactoryBean.getObject();
+		
 		userDao.deleteAll();			  
 		for(User user : users) userDao.add(user);
 		
