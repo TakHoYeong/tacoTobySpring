@@ -39,6 +39,4 @@ public class UserServiceTx implements UserService {
 		}
 	}
 	
-	a b c a
-
 }
