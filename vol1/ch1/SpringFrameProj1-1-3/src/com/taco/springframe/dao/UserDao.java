@@ -12,7 +12,7 @@ import com.taco.springframe.domain.User;
 public class UserDao {
 	public void add(User user) throws ClassNotFoundException, SQLException {
 		
-		// Class.forName을 쓰게되면 jdbc.Driver class가 JVM에 로드된다.
+		// Class.forName을 쓰게되면 jdbc.Driver class가 JVM에 로드된다..
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/sbdt_db1?characterEncoding=UTF-8", 
 				"root",
